@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tô Louco Por Você!</title>
   <meta name="description" content="Um cartão virtual romântico, fofo e divertido para convidar alguém especial para sair." />
-  <meta property="og:title" content="Tô Louco Por Você!" />
-  <meta property="og:description" content="Um cartão virtual romântico, fofo e divertido." />
-  <meta property="og:type" content="website" />
   <style>
     :root{
-      --bg:#ffe6f0;         /* rosa clarinho */
-      --primary:#b30059;    /* vinho/rosa escuro */
-      --accent:#ff66a3;     /* rosa vivo */
-      --accent-2:#cc0066;   /* rosa escuro no hover */
+      --bg:#ffe6f0;
+      --primary:#b30059;
+      --accent:#ff66a3;
+      --accent-2:#cc0066;
       --card:#fff;
     }
     *{box-sizing:border-box}
@@ -21,7 +18,7 @@
     body{
       margin:0;
       background: radial-gradient(1200px 800px at 20% 0%, #fff 0, var(--bg) 60%);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      font-family: system-ui, Arial, sans-serif;
       color: var(--primary);
       display:grid;
       place-items:center;
@@ -31,7 +28,7 @@
       width: min(680px, 100%);
       background: var(--card);
       border-radius: 20px;
-      padding: clamp(20px, 4vw, 36px);
+      padding: 24px;
       box-shadow: 0 20px 60px rgba(179,0,89,.18);
       text-align:center;
       position:relative;
@@ -39,13 +36,12 @@
       border:1px solid rgba(179,0,89,.12);
     }
     h1{
-      font-size: clamp(28px, 5vw, 44px);
-      line-height:1.1;
+      font-size: 44px;
       margin:0 0 10px;
     }
-    p{font-size: clamp(16px, 2.6vw, 20px); margin: 6px 0}
+    p{font-size: 20px; margin: 6px 0}
     .heart{
-      font-size: clamp(64px, 12vw, 100px);
+      font-size: 100px;
       animation: pulse 1.2s infinite;
       margin: 10px 0 6px;
       display:inline-block;
@@ -69,98 +65,36 @@
     }
     .button:hover{filter:brightness(1.05)}
     .button:active{transform:translateY(1px) scale(.99)}
-    .tag{ 
-      display:inline-block; 
-      font-size:12px; 
-      background:#fff1f6; 
-      padding:6px 10px; 
-      border-radius:999px; 
-      border:1px solid rgba(179,0,89,.18); 
-      margin-bottom:10px;
-    }
     .footer{font-size:12px; opacity:.7; margin-top:16px}
     .avatar{
-      width:100px; height:100px; border-radius:50%; object-fit:cover; margin:8px auto 6px; display:none; box-shadow:0 8px 18px rgba(0,0,0,.12);
+      width:100px; height:100px; border-radius:50%; object-fit:cover; margin:8px auto 12px; display:block; box-shadow:0 8px 18px rgba(0,0,0,.12);
     }
-    .floating-hearts{ 
-      position:absolute; inset:0; pointer-events:none; overflow:hidden; 
-    }
-    .bubble{ 
-      position:absolute; font-size:20px; animation: floatUp 6s linear forwards; opacity:.9; filter:saturate(1.2);
-    }
-    @keyframes floatUp{ 
-      0%{ transform: translateY(40px) translateX(0) scale(.8); opacity:.0}
+    .floating-hearts{position:absolute; inset:0; pointer-events:none; overflow:hidden;}
+    .bubble{position:absolute; font-size:20px; animation: floatUp 6s linear forwards; opacity:.9;}
+    @keyframes floatUp{
+      0%{ transform: translateY(40px) scale(.8); opacity:.0}
       10%{ opacity:1}
       90%{ opacity:1}
-      100%{ transform: translateY(-120%) translateX(var(--x)) scale(1.2); opacity:0 }
-    }
-    .links{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px}
-    .secondary{
-      background:#fff; border:1px solid rgba(179,0,89,.28); color:var(--primary); box-shadow:none;
+      100%{ transform: translateY(-120%) scale(1.2); opacity:0 }
     }
   </style>
 </head>
 <body>
   <main class="card" id="card">
     <div class="floating-hearts" id="float"></div>
-    <div class="tag">Cartão romântico</div>
-    <img id="foto" class="avatar" alt="Foto da pessoa" />
-    <h1>Eu tô <strong>LOUCO</strong> por <span id="nome">você</span>! 💘</h1>
+    <img src="foto.jpg" class="avatar" alt="Foto da pessoa especial" />
+    <h1>Eu tô <strong>LOUCO</strong> por você! 💘</h1>
     <p>Não consigo parar de pensar em você...<br/>Sério, você me deixa completamente fora do ar! 😍</p>
     <div class="heart" aria-hidden="true">❤️</div>
     <p>Vamos dar uma chance pra isso?</p>
 
-    <div class="links">
-      <button class="button" id="btnYes">Diz que sim!</button>
-      <a class="button secondary" id="btnWhats" href="#">Chamar no WhatsApp</a>
-    </div>
+    <button class="button" id="btnYes">Diz que sim!</button>
 
-    <div class="footer">Dica: personalize com ?name=Ana&wa=5592999999999&photo=link.jpg&song=link.mp3</div>
-    <audio id="musica" preload="none"></audio>
+    <div class="footer">(Foto: <code>foto.jpg</code> | Música: <code>musica.mp3</code> devem estar na mesma pasta do HTML)</div>
+    <audio id="musica" src="musica.mp3" preload="auto"></audio>
   </main>
 
   <script>
-    // Utilitário: ler parâmetros da URL
-    const getParam = (key, dft = "") => new URLSearchParams(location.search).get(key) || dft;
-
-    // Personalização por URL: nome, whatsapp, foto e música
-    const nome = getParam("name", "você");
-    const wa = getParam("wa", ""); // ex: 5592999999999
-    const photo = getParam("photo", "");
-    const song = getParam("song", "");
-    const msg = encodeURIComponent(`Oi ${nome}! Eu tô louco por você... bora marcar algo? 😏`);
-
-    // Aplica nome
-    document.getElementById("nome").textContent = nome;
-
-    // Configura WhatsApp
-    const btnWhats = document.getElementById("btnWhats");
-    if (wa) {
-      btnWhats.href = `https://wa.me/${wa}?text=${msg}`;
-      btnWhats.target = "_blank";
-      btnWhats.rel = "noopener";
-    } else {
-      btnWhats.addEventListener("click", (e)=>{
-        e.preventDefault();
-        alert("Passe um número com ?wa=5592... para abrir no WhatsApp");
-      });
-    }
-
-    // Foto opcional
-    const foto = document.getElementById("foto");
-    if (photo) {
-      foto.src = photo;
-      foto.style.display = "block";
-    }
-
-    // Música opcional
-    const musica = document.getElementById("musica");
-    if (song){
-      musica.src = song;
-      musica.volume = 0.6;
-      // Autoplay depende do navegador; tocar ao clicar no botão "Diz que sim!"
-    }
-
     // Efeito de corações flutuando
     const float = document.getElementById("float");
     function spawnHeart(){
@@ -168,17 +102,17 @@
       b.className = "bubble";
       b.style.left = Math.random()*100 + "%";
       b.style.bottom = "-20px";
-      b.style.setProperty("--x", (Math.random()*80-40) + "px");
       b.textContent = ["💖","💘","💞","💗","❤️","💕"][Math.floor(Math.random()*6)];
       float.appendChild(b);
       setTimeout(()=> b.remove(), 6000);
     }
-    const heartTimer = setInterval(spawnHeart, 800);
+    setInterval(spawnHeart, 800);
 
-    // Botão "Diz que sim!" com confete simples
+    // Botão com música e alerta
     const btnYes = document.getElementById("btnYes");
+    const musica = document.getElementById("musica");
     btnYes.addEventListener("click", ()=>{
-      if (song && musica.paused) musica.play().catch(()=>{});
+      musica.play().catch(()=>{});
       celebrate();
       setTimeout(()=>{
         alert("Então bora marcar algo?! 😏");
@@ -214,13 +148,6 @@
         card.appendChild(p);
         setTimeout(()=>{ p.remove(); style.remove(); }, 920);
       }
-    }
-
-    // Acessibilidade: respeitar redução de movimento
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches){
-      clearInterval(heartTimer);
-      document.querySelectorAll('.heart').forEach(el=> el.style.animation='none');
     }
   </script>
 </body>
