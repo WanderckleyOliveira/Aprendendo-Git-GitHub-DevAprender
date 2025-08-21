@@ -67,7 +67,7 @@
     .button:active{transform:translateY(1px) scale(.99)}
     .footer{font-size:12px; opacity:.7; margin-top:16px}
     .avatar{
-      width:100px; height:100px; border-radius:50%; object-fit:cover; margin:8px auto 12px; display:block; box-shadow:0 8px 18px rgba(0,0,0,.12);
+      width:200px; height:200px; border-radius:50%; object-fit:cover; margin:8px auto 12px; display:block; box-shadow:0 8px 18px rgba(0,0,0,.12);
     }
     .floating-hearts{position:absolute; inset:0; pointer-events:none; overflow:hidden;}
     .bubble{position:absolute; font-size:20px; animation: floatUp 6s linear forwards; opacity:.9;}
@@ -82,7 +82,7 @@
 <body>
   <main class="card" id="card">
     <div class="floating-hearts" id="float"></div>
-    <img src="foto.jpg.jpeg" class="avatar" alt="Você é muito Especial" />
+    <img src="foto.jpg" class="avatar" alt="Foto da pessoa especial" />
     <h1>Eu tô <strong>LOUCO</strong> por você! 💘</h1>
     <p>Não consigo parar de pensar em você...<br/>Sério, você me deixa completamente fora do ar! 😍</p>
     <div class="heart" aria-hidden="true">❤️</div>
@@ -91,7 +91,7 @@
     <button class="button" id="btnYes">Diz que sim!</button>
 
     <div class="footer">(Foto: <code>foto.jpg</code> | Música: <code>musica.mp3</code> devem estar na mesma pasta do HTML)</div>
-    <audio id="musica" src="musica.mp3" preload="auto"></audio>
+    <audio id="musica" src="musica.mp3" autoplay loop preload="auto"></audio>
   </main>
 
   <script>
@@ -108,11 +108,9 @@
     }
     setInterval(spawnHeart, 800);
 
-    // Botão com música e alerta
+    // Botão com confete e alerta
     const btnYes = document.getElementById("btnYes");
-    const musica = document.getElementById("musica");
     btnYes.addEventListener("click", ()=>{
-      musica.play().catch(()=>{});
       celebrate();
       setTimeout(()=>{
         alert("Então bora marcar algo?! 😏");
@@ -152,3 +150,4 @@
   </script>
 </body>
 </html>
+
