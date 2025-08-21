@@ -1,74 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Tô Louco Por Você!</title>
-  <style>
-    body {
-      background-color: #ffe6f0;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 50px;
-      color: #b30059;
-    }
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 24px;
-    }
-    .heart {
-      font-size: 80px;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    .button {
-      background-color: #ff66a3;
-      border: none;
-      padding: 15px 30px;
-      font-size: 20px;
-      border-radius: 10px;
-      color: white;
-      margin-top: 30px;
-      cursor: pointer;
-    }
-    .button:hover {
-      background-color: #cc0066;
-    }
-    .avatar {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 20px auto;
-      display: block;
-      border: 5px solid #ff66a3;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartão Romântico Encantado</title>
+<style>
+body {
+  background: radial-gradient(circle at top left, #ffe6f0, #ffd6e8);
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 50px;
+  color: #b30059;
+  overflow-x: hidden;
+  position: relative;
+}
+h1 { font-size: 48px; margin-bottom: 10px; z-index:1; position:relative; }
+#fraseRomantica { font-size:24px; margin:10px 0 30px; z-index:1; position:relative; }
+.heart { font-size: 80px; animation: pulse 1s infinite; z-index:1; position:relative; }
+@keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+.button {
+  background-color: #ff66a3;
+  border: none;
+  padding: 15px 30px;
+  font-size: 20px;
+  border-radius: 15px;
+  color: white;
+  margin-top: 30px;
+  cursor: pointer;
+  z-index:1;
+  position:relative;
+  box-shadow: 0 0 20px #ff66a3;
+  transition: 0.3s;
+}
+.button:hover { 
+  background-color: #cc0066; 
+  box-shadow: 0 0 40px #ff99c2;
+}
+.avatar {
+  width: 200px; height: 200px; border-radius: 50%;
+  object-fit: cover; margin: 20px auto; display: block; border: 5px solid #ff66a3; z-index:1; position:relative;
+}
+.floating-hearts, .confetti { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:0;}
+.heart-bubble, .confetti-piece {
+  position:absolute; font-size:24px; animation: floatUp 6s linear forwards; opacity:0.9;
+}
+.confetti-piece { font-size: 20px; animation: confettiFall 2s forwards; }
+@keyframes floatUp {0%{transform:translateY(100vh) scale(0.8) rotate(0deg); opacity:0;}10%{opacity:1;}100%{transform:translateY(-20vh) scale(1.2) rotate(360deg); opacity:0;}}
+@keyframes confettiFall {0%{transform:translateY(0) rotate(0deg); opacity:1;}100%{transform:translateY(-200px) rotate(720deg); opacity:0;}}
+</style>
 </head>
 <body>
-  <h1>Eu sou LOUCO por você! 💘</h1>
-  <img src="foto.jpg.jpg" class="avatar" alt="Foto da pessoa especial" />
-  <p>Não consigo parar de pensar em você...<br>
-     Sério, você aceita ser minha namorado novamente?! 😍</p>
-  <div class="heart">❤️</div>
-  <p>Vamos dar uma chance pra isso?</p>
 
-  <!-- Botão do WhatsApp -->
-  <button class="button" 
-    onclick="window.open('https://wa.me/5592991064072?text=Eu%20amei%20seu%20cart%C3%A3o%20e%20quero%20te%20dar%20minha%20resposta%20%F0%9F%92%95', '_blank')">
-    Diz que sim!
-  </button>
+<h1>Eu sou LOUCO por você! 💘</h1>
+<img src="foto.jpg.jpg" class="avatar" alt="Foto da pessoa especial">
+<h2>Te amo do TAMANHO DO UNIVERSO</h2>
+<p id="fraseRomantica">Você é incrível 💕</p>
+<div class="heart">❤️</div>
 
-  <!-- Música automática -->
-  <audio autoplay loop>
-    <source src="musica.mp3.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
+<h2>Você aceita se minha namorada novamente?</h2>
+
+<button class="button" id="btnYes">
+  Diz que sim!
+</button>
+
+<div class="floating-hearts" id="hearts"></div>
+<div class="confetti" id="confetti"></div>
+
+<audio autoplay loop>
+  <source src="musica.mp3.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
+
+<script>
+// Corações flutuantes girando
+const heartsContainer = document.getElementById('hearts');
+function spawnHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart-bubble';
+  heart.textContent = ['💖','💘','💞','💗','❤️','💕'][Math.floor(Math.random()*6)];
+  heart.style.left = Math.random()*100 + '%';
+  heart.style.fontSize = (20 + Math.random()*30) + 'px';
+  heart.style.transform = `rotate(${Math.random()*360}deg)`;
+  heartsContainer.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(spawnHeart, 400);
+
+// Frases românticas alternando
+const frases = [
+  'Você é incrível 💕',
+  'Não consigo parar de pensar em você 😍',
+  'Meu coração bate mais forte por você ❤️',
+  'Quero ficar sempre do seu lado 💖',
+  'Você é meu sonho realizado 💘',
+  'Cada momento com você é mágico ✨'
+];
+let i = 0;
+const fraseElem = document.getElementById('fraseRomantica');
+setInterval(() => {
+  i = (i + 1) % frases.length;
+  fraseElem.textContent = frases[i];
+}, 4000);
+
+// Botão WhatsApp + confete colorido
+const btnYes = document.getElementById('btnYes');
+const confettiContainer = document.getElementById('confetti');
+
+btnYes.addEventListener('click', ()=>{
+  // Abrir WhatsApp
+  window.open('https://wa.me/5592991064072?text=Sim,%20quero%20ficar%20com%20você%20💖','_blank');
+  
+  // Criar confete colorido
+  for(let j=0;j<50;j++){
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.textContent = ['💖','💘','💞','💗','❤️','💕'][Math.floor(Math.random()*6)];
+    c.style.left = Math.random()*100+'%';
+    c.style.fontSize = (10 + Math.random()*20) + 'px';
+    c.style.color = `hsl(${Math.random()*360}, 80%, 60%)`;
+    confettiContainer.appendChild(c);
+    setTimeout(()=> c.remove(), 2000);
+  }
+});
+</script>
+
 </body>
 </html>
